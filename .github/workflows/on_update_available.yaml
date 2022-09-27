@@ -11,5 +11,4 @@ jobs:
           fetch-depth: 0
       - name: check versions
         run: | 
-          git branch -r > test.txt
-          cat test.txt
+          git branch
