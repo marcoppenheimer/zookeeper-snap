@@ -1,0 +1,13 @@
+on:
+  workflow_call:
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: check versions
+        run: | 
+          git branch -r > test.txt
+          cat test.txt
