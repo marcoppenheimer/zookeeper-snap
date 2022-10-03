@@ -30,4 +30,5 @@ def diff_versions():
     
 
 if __name__ == "__main__":
-    print(diff_versions())
+    for version in diff_versions():
+        print(version)
