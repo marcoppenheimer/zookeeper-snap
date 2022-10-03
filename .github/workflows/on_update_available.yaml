@@ -1,14 +1,24 @@
 on:
   workflow_dispatch:
-    branches:
-      - '*.*.*/*'
+
 jobs:
-  update:
+  get-versions-diff:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: check versions
-        run: | 
-          git branch
+      - name: versions-diff
+        run: echo "::set-output name=matrix::$(./check_updates.py)"
+    outputs:
+      matrix: ${{ steps.versions-diff.outputs.matrix }}
+  
+  list-versions:
+    needs: get-versions-diff
+    strategy:
+      matrix:
+        versions: ${{ fromJson(needs.get-versions-diff.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: list-versions
+        run: echo "${{ matrix.versions }}"
