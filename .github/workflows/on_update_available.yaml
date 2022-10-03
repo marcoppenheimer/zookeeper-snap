@@ -11,7 +11,6 @@ jobs:
       - name: versions-diff
         run: |
           pip install -r requirements.txt
-          git branch -a
           echo "$(./check_updates.py | jq -R -s -c 'split("\n")[:-1]')"
           echo "::set-output name=matrix::$(./check_updates.py | jq -R -s -c 'split("\n")[:-1]')"
     outputs:
