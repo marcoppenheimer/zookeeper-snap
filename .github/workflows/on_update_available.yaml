@@ -34,11 +34,19 @@ jobs:
     needs:
       - create-branch
       - get-versions-diff
+    strategy:
+      matrix:
+        versions: ${{ fromJson(needs.get-versions-diff.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@v3
-      - id: exit
-        run: |
-          exit 1
+    - uses: actions/checkout@v2
+    - uses: snapcore/action-build@v1
+      id: build
+    - uses: snapcore/action-publish@v1
+      env:
+        SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.STORE_LOGIN }}
+      with:
+        snap: ${{ steps.build.outputs.snap }}
+        release: ${{ matrix.versions }}
 
   open-issue:
     runs-on: ubuntu-latest
