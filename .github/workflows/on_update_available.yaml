@@ -29,11 +29,24 @@ jobs:
           branch: ${{ matrix.versions }}/stable
           sha: '${{ github.event.pull_request.head.sha }}'
   
+  publish:
+    runs-on: ubuntu-latest
+    needs:
+      - create-branch
+      - get-versions-diff
+    steps:
+      - uses: actions/checkout@v3
+      - id: exit
+        run: |
+          exit 1
+
   open-issue:
     runs-on: ubuntu-latest
+    if: failure()
     needs: 
       - create-branch
       - get-versions-diff
+      - publish
     permissions:
       contents: read
       issues: write 
