@@ -1,5 +1,5 @@
 ---
-title: {{ env.ISSUE_TITLE }}
+title: Create charm channel
 assignees: jardon
 labels: enhancement
 ---

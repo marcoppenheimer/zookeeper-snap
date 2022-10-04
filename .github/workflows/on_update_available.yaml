@@ -45,4 +45,4 @@ jobs:
       - uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_TITLE: ${{ matrix.versions }}
+          ISSUE_TITLE: Create Charm Channel for ${{ matrix.versions }}
