@@ -66,4 +66,4 @@ jobs:
       - uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_TITLE: Create Snap Channel for ${{ matrix.versions }}
+          ISSUE_TITLE: ${{ matrix.versions }}
