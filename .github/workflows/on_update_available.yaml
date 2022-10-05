@@ -11,6 +11,7 @@ jobs:
       - id: versions-diff
         run: |
           pip install -r requirements.txt
+          ./check_updates.py | jq -R -s -c 'split("\n")[:-1]'
           echo "::set-output name=matrix::$(./check_updates.py | jq -R -s -c 'split("\n")[:-1]')"
     outputs:
       matrix: ${{ steps.versions-diff.outputs.matrix }}
@@ -28,6 +29,22 @@ jobs:
         with:
           branch: ${{ matrix.versions }}/stable
           sha: '${{ github.event.pull_request.head.sha }}'
+      - name: clone
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ matrix.versions }}/stable
+      - name: inject-version
+        run: |
+          sed -i "s:3.6.3:${{ matrix.versions }}:g" snap/snapcraft.yaml
+          grep version snap/snapcraft.yaml
+      - name: commit
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email noreply@github.com
+          git add snap/snapcraft.yaml
+          git commit -m "Prepare release of version ${{ matrix.versions }}/stable"
+      - name: push
+        run: git push origin ${{ matrix.versions }}/stable
   
   publish:
     runs-on: ubuntu-latest
