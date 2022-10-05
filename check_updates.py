@@ -23,7 +23,7 @@ def get_releases():
 
 def get_branches():
     git_branch = subprocess.run(["git", "branch", "-r"], capture_output=True, text=True).stdout
-    return re.findall("\d.\d.\d", git_branch)
+    return re.findall("\d.\d.\d+", git_branch)
 
 def diff_versions():
     return [ x for x in get_releases() if x not in get_branches() ]
