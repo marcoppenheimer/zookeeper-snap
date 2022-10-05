@@ -63,7 +63,7 @@ jobs:
         SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.STORE_LOGIN }}
       with:
         snap: ${{ steps.build.outputs.snap }}
-        release: ${{ matrix.versions }}
+        release: ${{ matrix.versions }}/stable
 
   open-issue:
     runs-on: ubuntu-latest
